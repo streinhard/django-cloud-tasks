@@ -6,7 +6,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 
 WORKDIR /app
 
-COPY requirements.txt .
+COPY /tests/requirements.txt .
 
 RUN apk update &&\
     apk add --no-cache py3-pip py3-gunicorn &&\
@@ -16,8 +16,8 @@ RUN apk update &&\
     find /usr/lib/python*/ -type d | grep '/locale/' | grep -v 'LC_MESSAGES$' | grep -v '/en' | xargs -n1 rm -rf &&\
     find /usr/lib/python*/ -type d | grep '/static/' | xargs -n1 rm -rf
 
-COPY . /app/
-COPY ../django_cloud_task /app/
+COPY tests/ /app/
+COPY django_cloud_tasks/ /app/django_cloud_tasks/
 RUN ./manage.py migrate
 
 CMD gunicorn --bind :8080 --workers 1 --threads 4 testapp.wsgi:application
