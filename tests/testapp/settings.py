@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django.contrib.contenttypes',
+    'django_cloud_tasks',
     'testapp',
 ]
 
@@ -109,3 +110,24 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Django Cloud Task configuration
+
+GOOGLE_PROJECT_NAME = 'genie-ar'
+
+DJANGO_CLOUD_TASKS = {
+    'project_location_name': f'projects/{GOOGLE_PROJECT_NAME}/locations/eu-west6',
+    'task_handler_root_url': '/tasks/',
+}
+
+# This setting allows you to debug your cloud tasks by running actual task handler function locally
+# instead of sending them to the task queue. Default: False
+DJANGO_CLOUD_TASKS_EXECUTE_LOCALLY = False
+
+# If True, running `.execute()` on remote task will simply log the task data instead of adding it to
+# the queue. Useful for debugging. Default: True
+DJANGO_CLOUD_TASKS_BLOCK_REMOTE_TASKS = False
+
+
+DJANGO_CLOUD_TASKS_HANDLER_SECRET = SECRET_KEY
